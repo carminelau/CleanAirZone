@@ -2034,3 +2034,9 @@ section {
   font-size: 13px;
   color: #012970;
 }
+
+.containerMap{
+  padding: 40px 0 20px 0;
+  display: flex;
+  margin-top: 30px;
+}

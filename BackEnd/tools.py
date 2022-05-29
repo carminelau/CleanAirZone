@@ -6,6 +6,8 @@ def deleteAll(name):
 
         name.delete_one({'_id':ide})
 
-deleteAll(stations)
-deleteAll(particulateData)
-deleteAll(weatherData)
+def findCountry():
+    lst=[]
+    for item in stations.find():
+        lst.append(item['country'])
+    return list(dict.fromkeys(lst))
