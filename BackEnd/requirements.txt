@@ -3,3 +3,4 @@ pycountry
 flask
 pandas
 flask_pymongo
+flask_cors
