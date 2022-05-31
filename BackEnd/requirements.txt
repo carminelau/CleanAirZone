@@ -1,0 +1,5 @@
+requests
+pycountry
+flask
+pandas
+flask_pymongo
