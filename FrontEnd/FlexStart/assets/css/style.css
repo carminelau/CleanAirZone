@@ -48,7 +48,7 @@ section {
   letter-spacing: 1px;
   font-weight: 700;
   margin: 0;
-  color: #4154f1;
+  color: #09009f;
   text-transform: uppercase;
 }
 .section-header p {
@@ -57,7 +57,7 @@ section {
   font-size: 38px;
   line-height: 42px;
   font-weight: 700;
-  color: #012970;
+  color: #09009f;
 }
 @media (max-width: 768px) {
   .section-header p {
@@ -172,7 +172,18 @@ section {
   font-size: 30px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #012970;
+  color: #09009f;
+  font-family: "Nunito", sans-serif;
+  margin-top: 3px;
+}
+
+.header .logo h2 {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: -webkit-linear-gradient(45deg, #09009f, #06c105 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;;
   font-family: "Nunito", sans-serif;
   margin-top: 3px;
 }
@@ -385,7 +396,7 @@ section {
   margin: 0;
   font-size: 48px;
   font-weight: 700;
-  color: #012970;
+  color: #09009f;
 }
 .hero h2 {
   color: #444444;
@@ -471,7 +482,7 @@ section {
 .about h2 {
   font-size: 24px;
   font-weight: 700;
-  color: #012970;
+  color: #09009f;
 }
 .about p {
   margin: 15px 0 30px 0;
@@ -518,7 +529,7 @@ section {
 }
 .values .box h3 {
   font-size: 24px;
-  color: #012970;
+  color: #09009f;
   font-weight: 700;
   margin-bottom: 18px;
 }
