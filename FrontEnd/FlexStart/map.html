@@ -51,21 +51,19 @@
       <img src="assets/img/logo.png" alt="">
       <h2>CleanAirZone</h2>
     </a>
-    
 
     <nav id="navbar" class="navbar">
       <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a class="nav-link scrollto active" href="map.html">Mappa</a></li>
-        <li class="nav-link scrollto active"><a href="#"><span>Grafici</span></a>
-        </li>
-        <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+        <li><a class="nav-link scrollto" href="index.html">Home</a></li>
+        <li><a class="nav-link scrollto active" href="map.html">Map</a></li>
+        <li><a class="nav-link scrollto" href="#">Diagrams</a></li>
       </ul>
       <i class="bi bi-list mobile-nav-toggle"></i>
     </nav><!-- .navbar -->
 
   </div>
 </header><!-- End Header -->
+
 <br></br>
 <main id="main">
 
@@ -81,13 +79,39 @@
 
               <div id="map">
               <script>
-                  var map = L.map('map').setView([41.9027835,12.4963655], 6);
+
+                  function cerchi(nazione) {
+                    fetch("http://127.0.0.1:5600/getStationsByCountry?country=" + nazione, {
+                        "method": "GET",
+                        "headers": {}
+                      })
+                      .then(res => res.json())
+                      .then(data => {
+                        map.setView([data[0].latCountry,data[0].lonCountry],4);
+                        console.log(data)
+                        for(var i = 0; i < data.length; i++) {
+                          
+                        var obj = data[i];
+                        
+                        var circle = L.circle([obj.latitude,obj.longitude],{radius: 400, bubblingMouseEvents: false, color: '#FFFFAA', weight: 3, fill:false}).addTo(map)
+                        }
+                      })
+                      .catch(err => { console.error(err);});
+                  }
+
+                  
+                  
+                  var map = L.map('map').setView([41.9027835,12.4963655], 4);
                   L.tileLayer('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=m5sIKtQYgI1arDxvl4ob', {
                   attribution: 'Powered by <a href="https://www.geoapify.com/" target="_blank">Geoapify</a> | <a href="https://openmaptiles.org/" target="_blank">© OpenMapTiles</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap</a> contributors',
                   maxZoom: 20, id: 'osm-bright'
                   }).addTo(map);
+                  
+                  cerchi('GE')
 
-                  var marker = L.marker([40.7507814,14.6834465]).addTo(map)
+                  
+
+                  
               </script>
               </div>
           </div>  

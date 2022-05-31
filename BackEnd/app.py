@@ -1,13 +1,16 @@
-from flask import Flask, request,jsonify
+from flask import Flask,jsonify,request
 import pandas as pd
 from databases import particulateData,stations,weatherData
 from tools import findCountry
 import json
 import pycountry
 import datetime
+from flask_cors import CORS
+import requests
 
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def home():
@@ -17,7 +20,10 @@ def home():
 def getCountry():
     array={}
     for item in findCountry():
-        array[item]=pycountry.countries.get(alpha_2=item).name
+        req = requests.get("https://nominatim.sensesquare.eu/nominatim/search?country=" + str(item))
+        js=req.json()
+        if(len(js)>0):
+            array[item]={"name": pycountry.countries.get(alpha_2=item).name, 'latitude': js[0]['lat'], 'longitude': js[0]['lon']}
 
     return jsonify(array)
 
@@ -28,6 +34,21 @@ def getStationByCountry():
         return jsonify({"error" : "Country non inserto"})
     
     dati=stations.find({"country" : country}) 
+    req = requests.get("https://nominatim.sensesquare.eu/nominatim/search?country=" + str(country))
+    js=req.json()
+    array=[]
+    for item in dati:
+        del item['_id']
+        if(len(js)>0):
+            item['latCountry']= js[0]['lat']
+            item['lonCountry']= js[0]['lon']
+        array.append(item)
+    return jsonify(array)
+
+@app.route("/getAllStations")
+def getAllStations():
+    
+    dati=stations.find() 
     array=[]
     for item in dati:
         del item['_id']
