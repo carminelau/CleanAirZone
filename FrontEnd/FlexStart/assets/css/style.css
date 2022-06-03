@@ -183,7 +183,7 @@ section {
   letter-spacing: 1px;
   background: -webkit-linear-gradient(45deg, #09009f, #06c105 80%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;;
+  -webkit-text-fill-color: transparent;
   font-family: "Nunito", sans-serif;
   margin-top: 3px;
 }
@@ -1971,7 +1971,17 @@ section {
   font-size: 30px;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #012970;
+  color: #4154f1;
+  font-family: "Nunito", sans-serif;
+  margin-top: 3px;
+}
+.footer .footer-top .footer-info .logo h2 {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: -webkit-linear-gradient(45deg, #09009f, #06c105 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-family: "Nunito", sans-serif;
   margin-top: 3px;
 }
@@ -1984,18 +1994,20 @@ section {
 .footer .footer-top .social-links a {
   font-size: 20px;
   display: inline-block;
-  color: rgba(1, 41, 112, 0.5);
+  background: -webkit-linear-gradient(45deg, #09009f, #06c105 80%);
+  -webkit-background-clip: text;
   line-height: 0;
   margin-right: 10px;
   transition: 0.3s;
 }
+
 .footer .footer-top .social-links a:hover {
   color: #012970;
 }
 .footer .footer-top h4 {
   font-size: 16px;
   font-weight: bold;
-  color: #012970;
+  color:rgb(9, 0, 159);
   text-transform: uppercase;
   position: relative;
   padding-bottom: 12px;
