@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Blog Single - FlexStart Bootstrap Template</title>
+  <title>Mappa</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -14,7 +14,9 @@
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/aos/aos.css" rel="stylesheet">
@@ -27,8 +29,12 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
 
   <!-- =======================================================
   * Template Name: FlexStart - v1.9.0
@@ -37,37 +43,45 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
   <style>
-    #map {position:fixed; top: 10px; bottom :0;left: 0; right :0; width: 65%; height: 1000px; }
-</style>
+    #map {
+      position: fixed;
+      top: 10px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 65%;
+      height: 1000px;
+    }
+  </style>
 </head>
 
 <body>
 
- <!-- ======= Header ======= -->
- <header id="header" class="header fixed-top">
-  <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-    <a href="index.html" class="logo d-flex align-items-center">
-      <img src="assets/img/logo_CleanAirZone.png" alt="">
-      <h2>CleanAirZone</h2>
-    </a>
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/logo_CleanAirZone.png" alt="">
+        <h2>CleanAirZone</h2>
+      </a>
 
-    <nav id="navbar" class="navbar">
-      <ul>
-        <li><a class="nav-link scrollto" href="index.html">Home</a></li>
-        <li><a class="nav-link scrollto active" href="map.html">Map</a></li>
-        <li><a class="nav-link scrollto" href="#">Diagrams</a></li>
-      </ul>
-      <i class="bi bi-list mobile-nav-toggle"></i>
-    </nav><!-- .navbar -->
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto" href="index.html">Home</a></li>
+          <li><a class="nav-link scrollto active" href="map.html">Map</a></li>
+          <li><a class="nav-link scrollto" href="#">Diagrams</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
 
-  </div>
-</header><!-- End Header -->
+    </div>
+  </header><!-- End Header -->
 
-<br></br>
-<main id="main">
+  <br></br>
+  <main id="main">
 
-  <!-- ======= Breadcrumbs ======= -->
+    <!-- ======= Breadcrumbs ======= -->
 
     <!-- ======= Blog Single Section ======= -->
     <section id="blog" class="blog">
@@ -77,45 +91,45 @@
 
           <div class="col-lg-8 entries">
 
-              <div id="map">
+            <div id="map">
               <script>
 
-                  function cerchi(nazione) {
-                    fetch("http://127.0.0.1:5600/getStationsByCountry?country=" + nazione, {
-                        "method": "GET",
-                        "headers": {}
-                      })
-                      .then(res => res.json())
-                      .then(data => {
-                        map.setView([data[0].latCountry,data[0].lonCountry],4);
-                        console.log(data)
-                        for(var i = 0; i < data.length; i++) {
-                          
-                        var obj = data[i];
-                        
-                        var circle = L.circle([obj.latitude,obj.longitude],{radius: 400, bubblingMouseEvents: false, color: '#FFFFAA', weight: 3, fill:false}).addTo(map)
-                        }
-                      })
-                      .catch(err => { console.error(err);});
-                  }
+                function cerchi(nazione) {
+                  fetch("http://127.0.0.1:5600/getStationsByCountry?country=" + nazione, {
+                    "method": "GET",
+                    "headers": {}
+                  })
+                    .then(res => res.json())
+                    .then(data => {
+                      map.setView([data.country.latCountry, data.country.lonCountry], 4);
+                      console.log(data)
+                      for (var i = 0; i < data.stazioni.length; i++) {
 
-                  
-                  
-                  var map = L.map('map').setView([41.9027835,12.4963655], 4);
-                  L.tileLayer('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=m5sIKtQYgI1arDxvl4ob', {
+                        var obj = data.stazioni[i];
+
+                        var circle = L.circle([obj.latitude, obj.longitude], { radius: 400, bubblingMouseEvents: false, color: '#FFFFAA', weight: 3, fill: false }).addTo(map)
+                      }
+                    })
+                    .catch(err => { console.error(err); });
+                }
+
+
+
+                var map = L.map('map').setView([41.9027835, 12.4963655], 4);
+                L.tileLayer('https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=m5sIKtQYgI1arDxvl4ob', {
                   attribution: 'Powered by <a href="https://www.geoapify.com/" target="_blank">Geoapify</a> | <a href="https://openmaptiles.org/" target="_blank">© OpenMapTiles</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap</a> contributors',
                   maxZoom: 20, id: 'osm-bright'
-                  }).addTo(map);
-                  
-                  cerchi('GE')
+                }).addTo(map);
 
-                  
+                cerchi('IT')
 
-                  
+
+
+
               </script>
-              </div>
-          </div>  
-          
+            </div>
+          </div>
+
           <div class="col-lg-4">
 
             <div class="sidebar">
@@ -128,6 +142,8 @@
                 </form>
               </div><!-- End sidebar search formn-->
 
+              <!-- 
+
               <h3 class="sidebar-title">Categories</h3>
               <div class="sidebar-item categories">
                 <ul>
@@ -138,9 +154,10 @@
                   <li><a href="#">Creative <span>(8)</span></a></li>
                   <li><a href="#">Educaion <span>(14)</span></a></li>
                 </ul>
-              </div><!-- End sidebar categories-->
+              </div>-->
+              <!-- End sidebar categories-->
 
-            <!--
+              <!--
               <h3 class="sidebar-title">Recent Posts</h3>
               <div class="sidebar-item recent-posts">
                 <div class="post-item clearfix">
@@ -176,22 +193,39 @@
               </div>
               -->
               <!--End sidebar recent posts-->
-            
+              <script>
+                fetch("http://127.0.0.1:5600/getCountry", {
+                  "method": "GET",
+                  "headers": {}
+                })
+                  .then(res => res.json())
+                  .then(data => {
+                    var ul = document.getElementById("nazioni");
+                    for (var i = 0; i < data.length; i++) {
+                      var obj = data[i];
+                      var li = document.createElement("li");
+                      var a = document.createElement('a');
+                      var linkText = document.createTextNode(obj.name);
+                      a.appendChild(linkText);
+                      a.title = obj.name;
+                      a.href = "#";
+                      
+                      li.appendChild(a);
+                      ul.appendChild(li);
+
+                    }
+
+                  }
+                  )
+                  .catch(err => {
+                    console.error(err);
+                  });
+              </script>
 
               <h3 class="sidebar-title">Tags</h3>
               <div class="sidebar-item tags">
-                <ul>
-                  <li><a href="#">App</a></li>
-                  <li><a href="#">IT</a></li>
-                  <li><a href="#">Business</a></li>
-                  <li><a href="#">Mac</a></li>
-                  <li><a href="#">Design</a></li>
-                  <li><a href="#">Office</a></li>
-                  <li><a href="#">Creative</a></li>
-                  <li><a href="#">Studio</a></li>
-                  <li><a href="#">Smart</a></li>
-                  <li><a href="#">Tips</a></li>
-                  <li><a href="#">Marketing</a></li>
+                <ul id="nazioni">
+                  
                 </ul>
               </div><!-- End sidebar tags-->
 
@@ -206,66 +240,67 @@
 
   </main><!-- End #main -->
 
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-  <div class="footer-top">
-    <div class="container">
-      <div class="row gy-4">
-        <div class="col-lg-5 col-md-12 footer-info">
-          <a href="index.html" class="logo d-flex align-items-center">
-            <img src="assets/img/logo_CleanAirZone.png" alt="">
-            <h2>CleanAirZone</h2>
-          </a>
-          <p>Tutta l'aria a portata di mano
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-5 col-md-12 footer-info">
+            <a href="index.html" class="logo d-flex align-items-center">
+              <img src="assets/img/logo_CleanAirZone.png" alt="">
+              <h2>CleanAirZone</h2>
+            </a>
+            <p>Tutta l'aria a portata di mano
             <div class="social-links mt-3">
-            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
           </div>
+
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Informazioni corso</h4>
+            <ul>Basi di dati 2</ul>
+            <ul>052250005</ul>
+            <ul>Genoeffa Tortora</ul>
+          </div>
+
+          <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+            <h4>Contatti</h4>
+            <p>
+              Università degli Studi di Salerno<br>
+              Via Giovanni Paolo II, 132<br>
+              84084 Fisciano SA <br>
+              Italia <br><br>
+              <strong>Phone:</strong> +1 5589 55488 55<br>
+              <strong>Email:</strong> info@cleanairzone.com<br>
+            </p>
+
+          </div>
+
         </div>
-
-        <div class="col-lg-2 col-6 footer-links">
-          <h4>Informazioni corso</h4>
-          <ul>Basi di dati 2</ul>
-          <ul>052250005</ul>
-          <ul>Genoeffa Tortora</ul>
-        </div>
-
-        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-          <h4>Contatti</h4>
-          <p>
-            Università degli Studi di Salerno<br>
-            Via Giovanni Paolo II, 132<br>
-            84084 Fisciano SA <br>
-            Italia <br><br>
-            <strong>Phone:</strong> +1 5589 55488 55<br>
-            <strong>Email:</strong> info@cleanairzone.com<br>
-          </p>
-
-        </div>
-
       </div>
     </div>
-  </div>
 
-  <div class="container">
-    <div class="copyright">
-      &copy; Copyright <strong><span>CleanAirZone</span></strong>.
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>CleanAirZone</span></strong>.
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+        Designed by CleanAirZone
+      </div>
     </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
-      Designed by CleanAirZone
-    </div>
-  </div>
-</footer><!-- End Footer -->
+  </footer><!-- End Footer -->
 
 
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/purecounter/purecounter.js"></script>

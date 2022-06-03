@@ -164,6 +164,51 @@
 
     </section><!-- End Values Section -->
 
+    <script>
+          fetch("http://127.0.0.1:5600/CountSensor", {
+              "method": "GET",
+              "headers": {}
+            })
+            .then(res => res.json())
+            .then(data => {
+              document.getElementById("WorldSensor").setAttribute("data-purecounter-end", data['dati']);
+              }
+            )
+            .catch(err => { 
+              document.getElementById("WorldSensor").setAttribute("data-purecounter-end", "25000")
+              console.error(err);});
+
+            fetch("http://127.0.0.1:5600/CountSensorItaly", {
+              "method": "GET",
+              "headers": {}
+            })
+            .then(res => res.json())
+            .then(data => {
+              document.getElementById("ItalySensor").setAttribute("data-purecounter-end", data['dati']);
+              let num = parseInt(data['dati']) *3;
+              document.getElementById("DataItaly").setAttribute("data-purecounter-end", num.toString());
+              }
+            )
+            .catch(err => { 
+              document.getElementById("ItalySensor").setAttribute("data-purecounter-end", "103");
+              document.getElementById("DataItaly").setAttribute("data-purecounter-end", "309");
+              console.error(err);});
+
+            fetch("http://127.0.0.1:5600/CountDataWorld", {
+              "method": "GET",
+              "headers": {}
+            })
+            .then(res => res.json())
+            .then(data => {
+              document.getElementById("CountDataWorld").setAttribute("data-purecounter-end", data['dati'])
+              }
+            )
+            .catch(err => { 
+              document.getElementById("CountDataWorld").setAttribute("data-purecounter-end", "4623")
+              console.error(err);});
+            
+            
+    </script>
     <!-- ======= Counts Section ======= -->
     <section id="counts" class="counts">
       <div class="container" data-aos="fade-up">
@@ -174,8 +219,8 @@
             <div class="count-box">
               <i class="bi bi-emoji-smile"></i>
               <div>
-                <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Happy Clients</p>
+                <span id="WorldSensor" data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Sensori nel Mondo</p>
               </div>
             </div>
           </div>
@@ -184,8 +229,8 @@
             <div class="count-box">
               <i class="bi bi-journal-richtext" style="color: #ee6c20;"></i>
               <div>
-                <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Projects</p>
+                <span id="CountDataWorld" data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Dati nel Mondo</p>
               </div>
             </div>
           </div>
@@ -194,8 +239,8 @@
             <div class="count-box">
               <i class="bi bi-headset" style="color: #15be56;"></i>
               <div>
-                <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Hours Of Support</p>
+                <span id="ItalySensor" data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Sensori in Italia</p>
               </div>
             </div>
           </div>
@@ -204,8 +249,8 @@
             <div class="count-box">
               <i class="bi bi-people" style="color: #bb0852;"></i>
               <div>
-                <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Hard Workers</p>
+                <span id="DataItaly"data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Dati in Italia</p>
               </div>
             </div>
           </div>

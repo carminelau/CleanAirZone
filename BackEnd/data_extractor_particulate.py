@@ -1,15 +1,17 @@
 import json
 import requests
 import datetime
-from databases import particulateData,stations
+from databases import particulateData,stations,country
+import concurrent.futures
+import pycountry
 
 r = requests.get("https://api.luftdaten.info/static/v2/data.dust.min.json")
 dati = json.loads(r.text)
 
-for pippo in dati:
+def extract(pippo):
     dictsDate = {}
     dictsStation = {}
-
+    dictsCountry={}
     for item in pippo['sensordatavalues']:
         if(item['value_type'] == 'P1'):
             pm10 = float(item['value'])
@@ -41,8 +43,7 @@ for pippo in dati:
                         if "town" in georeq.keys():
                             dictsStation['citta'] = georeq['town']
 
-                dictsDate['ID'] = 'SC' + str(pippo['id'])
-                dictsStation['ID'] = 'SC' + str(pippo['id'])
+                dictsDate['ID'] = pippo['location']['id']
                 dictsDate['timestamp'] = pippo['timestamp']
                 dictsStation['latitude'] = float(pippo['location']['latitude'])
                 dictsStation['longitude'] = float(pippo['location']['longitude'])
@@ -50,24 +51,53 @@ for pippo in dati:
                 dictsStation['indoor'] = pippo['location']['indoor']
                 dictsStation['particulate'] = True
                 dictsStation['weather'] = False
+                dictsDate['latitude'] = float(pippo['location']['latitude'])
+                dictsDate['longitude'] = float(pippo['location']['longitude'])
+                dictsCountry['alpha_2'] = pippo['location']['country']
+                req = requests.get("https://nominatim.sensesquare.eu/nominatim/search?country=" + str(pippo['location']['country']))
+                js=req.json()
+                if(len(js)>0):
+                    dictsCountry['latCountry']= js[0]['lat']
+                    dictsCountry['lonCountry']= js[0]['lon']
+                dictsCountry["name"] = pycountry.countries.get(alpha_2=pippo['location']['country']).name
 
                 for item in pippo['sensordatavalues']:
                     if(item['value_type'] == 'P1'):
                         dictsDate['pm10'] = pm10
                     elif(item['value_type'] == 'P2'):
                         dictsDate['pm2_5'] = pm25
+
                 try:
                     particulateData.insert_one(dictsDate)
                 except:
                     print("errore inserimento Particulate")
                 
                 try:
-                    cerco= stations.find_one({'ID': dictsStation['ID']})
+                    cerco = stations.find_one({'latitude': dictsStation['latitude'], 'longitude':dictsStation['longitude']})
                     if(cerco ==  None):
                         stations.insert_one(dictsStation)
                     else:
                         cerco['particulate'] = True
-                        stations.delete_one({"ID": cerco['ID']})
+                        stations.delete_one({'latitude': cerco['latitude'], 'longitude':cerco['longitude']})
                         stations.insert_one(cerco)
                 except:
                     print("errore inserimento Station")
+
+                try:
+                    cerco = country.find_one({'alpha_2': pippo['location']['country']})
+                    if(cerco == None):
+                        country.insert_one(dictsCountry)
+                    else:
+                        print('già inserito')
+                except:
+                    print("errore inserimento country")
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    futures=[]
+    for pippo in dati:
+        futures.append(executor.submit(extract,pippo))
+
+for future in concurrent.futures.as_completed(futures):
+    print('Completed')
+
+    

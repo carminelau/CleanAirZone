@@ -1,14 +1,18 @@
 import json
 import requests
 import datetime
-from databases import weatherData,stations
+from databases import weatherData,stations,country
+import concurrent.futures
+import pycountry
+
 
 r = requests.get("https://api.luftdaten.info/static/v2/data.temp.min.json")
 dati = json.loads(r.text)
 
-for pippo in dati:
+def extract(pippo):
     dictsData = {}
     dictsStation = {}
+    dictsCountry={}
 
     for item in pippo['sensordatavalues']:
         if(item['value_type'] == 'humidity'):
@@ -41,15 +45,24 @@ for pippo in dati:
                         if "town" in georeq.keys():
                             dictsStation['citta'] = georeq['town']
        
-                dictsData['ID'] = 'SC' + str(pippo['id'])
-                dictsStation['ID'] = 'SC' + str(pippo['id'])
+                dictsData['ID'] = pippo['location']['id']
                 dictsData['timestamp'] = pippo['timestamp']
                 dictsStation['latitude'] = float(pippo['location']['latitude'])
                 dictsStation['longitude'] = float(pippo['location']['longitude'])
                 dictsStation['country'] = pippo['location']['country']
+                dictsCountry['alpha_2'] = pippo['location']['country']
+                req = requests.get("https://nominatim.sensesquare.eu/nominatim/search?country=" + str(pippo['location']['country']))
+                js=req.json()
+                if(len(js)>0):
+                    dictsCountry['latCountry']= js[0]['lat']
+                    dictsCountry['lonCountry']= js[0]['lon']
+                dictsCountry["name"] = pycountry.countries.get(alpha_2=pippo['location']['country']).name
+
                 dictsStation['indoor'] = pippo['location']['indoor']
                 dictsStation['weather'] = True
                 dictsStation['particulate'] = False
+                dictsData['latitude'] = float(pippo['location']['latitude'])
+                dictsData['longitude'] = float(pippo['location']['longitude'])
 
                 for item in pippo['sensordatavalues']:
                     if(item['value_type'] == 'humidity'):
@@ -62,12 +75,31 @@ for pippo in dati:
                     print("errore inserimento Weather")
             
                 try:
-                    cerco = stations.find_one({'ID': dictsStation['ID']})
+                    cerco = stations.find_one({'latitude': dictsStation['latitude'], 'longitude':dictsStation['longitude']})
                     if(cerco == None):
                         stations.insert_one(dictsStation)
                     else:
                         cerco['weather'] = True
-                        stations.delete_one({"ID": cerco['ID']})
+                        stations.delete_one({'latitude': cerco['latitude'], 'longitude':cerco['longitude']})
                         stations.insert_one(cerco)
                 except:
                     print("errore inserimento Station")
+                
+                try:
+                    cerco = country.find_one({'alpha_2': pippo['location']['country']})
+                    print(cerco)
+                    if(cerco == None):
+                        country.insert_one(dictsCountry)
+                    else:
+                        print('già inserito')
+                except:
+                    print("errore inserimento country")
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    futures=[]
+    for pippo in dati:
+        futures.append(executor.submit(extract,pippo))
+
+for future in concurrent.futures.as_completed(futures):
+    print('Completed')
+    

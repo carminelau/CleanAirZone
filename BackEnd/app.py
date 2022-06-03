@@ -1,6 +1,6 @@
 from flask import Flask,jsonify,request
 import pandas as pd
-from databases import particulateData,stations,weatherData
+from databases import particulateData,stations,weatherData,country
 from tools import findCountry
 import json
 import pycountry
@@ -18,32 +18,31 @@ def home():
 
 @app.route("/getCountry")
 def getCountry():
-    array={}
-    for item in findCountry():
-        req = requests.get("https://nominatim.sensesquare.eu/nominatim/search?country=" + str(item))
-        js=req.json()
-        if(len(js)>0):
-            array[item]={"name": pycountry.countries.get(alpha_2=item).name, 'latitude': js[0]['lat'], 'longitude': js[0]['lon']}
+    nazioni=country.find()
+    array=[]
+    for item in nazioni:
+        del item['_id']
+        array.append(item)
 
     return jsonify(array)
 
 @app.route("/getStationsByCountry")
 def getStationByCountry():
-    country = request.args.get('country')
-    if(country==""):
+    count = request.args.get('country')
+    if(count==""):
         return jsonify({"error" : "Country non inserto"})
     
-    dati=stations.find({"country" : country}) 
-    req = requests.get("https://nominatim.sensesquare.eu/nominatim/search?country=" + str(country))
-    js=req.json()
+    dati=stations.find({"country" : count})
+    c = country.find_one({"alpha_2" : count})
+    diz={}
     array=[]
     for item in dati:
         del item['_id']
-        if(len(js)>0):
-            item['latCountry']= js[0]['lat']
-            item['lonCountry']= js[0]['lon']
         array.append(item)
-    return jsonify(array)
+    del c['_id']
+    diz['country'] = c
+    diz['stazioni'] = array
+    return jsonify(diz)
 
 @app.route("/getAllStations")
 def getAllStations():
@@ -307,6 +306,21 @@ def getCitybyCountryandRegionandProvince():
     else:
         return jsonify({"error" : "Province non trovate per" + str(provincia)})
 
+@app.route("/CountSensorItaly")
+def CountSensorItaly():    
+    dati=stations.count_documents({"country" : 'IT'}) 
+    return jsonify({"dati":dati})
+
+@app.route("/CountSensor")
+def CountSensor():    
+    dati=stations.count_documents({}) 
+    return jsonify({"dati":dati})
+
+@app.route("/CountDataWorld")
+def CountDataWorld():    
+    datipartculate=particulateData.count_documents({})
+    datiweather=weatherData.count_documents({}) 
+    return jsonify({"dati":datipartculate+datiweather})
 
 
 if __name__ == '__main__':
