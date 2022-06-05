@@ -34,7 +34,8 @@
     crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
     integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
-    crossorigin=""></script>
+    crossorigin="">
+  </script>
 
   <!-- =======================================================
   * Template Name: FlexStart - v1.9.0
@@ -49,8 +50,8 @@
       bottom: 0;
       left: 0;
       right: 0;
-      width: 65%;
-      height: 1000px;
+      width: 68%;
+      height: 800px;
     }
   </style>
 </head>
@@ -101,7 +102,7 @@
                   })
                     .then(res => res.json())
                     .then(data => {
-                      map.setView([data.country.latCountry, data.country.lonCountry], 4);
+                      map.setView([data.country.latCountry, data.country.lonCountry], 6);
                       console.log(data)
                       for (var i = 0; i < data.stazioni.length; i++) {
 
@@ -111,6 +112,11 @@
                       }
                     })
                     .catch(err => { console.error(err); });
+                }
+
+                function resetMap(){
+                  location.reload()
+
                 }
 
 
@@ -134,13 +140,8 @@
 
             <div class="sidebar">
 
-              <h3 class="sidebar-title">Search</h3>
-              <div class="sidebar-item search-form">
-                <form action="">
-                  <input type="text">
-                  <button type="submit"><i class="bi bi-search"></i></button>
-                </form>
-              </div>
+              <button class="btn btn-outline-danger" onclick="return resetMap();">Reset Map</button>
+
               <script>
                 fetch("http://127.0.0.1:5600/getCountry", {
                   "method": "GET",
@@ -148,18 +149,24 @@
                 })
                   .then(res => res.json())
                   .then(data => {
-                    var ul = document.getElementById("nazioni");
+                    var btngroup = document.getElementById("btngroup");
                     for (var i = 0; i < data.length; i++) {
                       var obj = data[i];
-                      var li = document.createElement("li");
-                      var a = document.createElement('a');
-                      var linkText = document.createTextNode(obj.name);
-                      a.appendChild(linkText);
-                      a.title = obj.name;
-                      a.href = "#";
-                      a.setAttribute("onclick","return cerchi(\"" + obj.alpha_2 + "\");");
-                      li.appendChild(a);
-                      ul.appendChild(li);
+
+                      var input = document.createElement('input');
+                      input.type="checkbox";
+                      input.className="btn-check";
+                      
+                      input.id=obj.alpha_2;
+                      input.autocomplete="off";
+                      input.setAttribute("onclick","return cerchi(\"" + obj.alpha_2 + "\");");
+                      var label = document.createElement("label");
+                      label.className="btn btn-outline-primary";
+                      label.setAttribute("for", obj.alpha_2)
+                      label.textContent=obj.name
+                      label.style="margin: 3px;"
+                      btngroup.appendChild(input)
+                      btngroup.appendChild(label)
 
                     }
 
@@ -171,10 +178,10 @@
               </script>
 
               <h3 class="sidebar-title">Tags</h3>
-              <div class="sidebar-item tags">
-                <ul id="nazioni">
-                  
-                </ul>
+              <div class="tags">
+                  <div id="btngroup" class="btn-group-sm" role="group" aria-label="Basic checkbox toggle button group">
+                    
+                  </div>
               </div><!-- End sidebar tags-->
 
             </div><!-- End sidebar -->
@@ -261,7 +268,7 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
+  
 </body>
 
 </html>
