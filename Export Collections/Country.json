@@ -1,0 +1,345 @@
+[{
+  "_id": {
+    "$oid": "629a2b0c67cc2e7a458976f7"
+  },
+  "alpha_2": "DE",
+  "latCountry": "51.0834196",
+  "lonCountry": "10.4234469",
+  "name": "Germany"
+},{
+  "_id": {
+    "$oid": "629a2b0d67cc2e7a45897718"
+  },
+  "alpha_2": "PL",
+  "latCountry": "52.215933",
+  "lonCountry": "19.134422",
+  "name": "Poland"
+},{
+  "_id": {
+    "$oid": "629a2b0f67cc2e7a45897748"
+  },
+  "alpha_2": "FR",
+  "latCountry": "46.603354",
+  "lonCountry": "1.8883335",
+  "name": "France"
+},{
+  "_id": {
+    "$oid": "629a2b1267cc2e7a4589777b"
+  },
+  "alpha_2": "BG",
+  "latCountry": "42.6073975",
+  "lonCountry": "25.4856617",
+  "name": "Bulgaria"
+},{
+  "_id": {
+    "$oid": "629a2b1752d12e3d3ba7bfba"
+  },
+  "alpha_2": "CH",
+  "latCountry": "46.7985624",
+  "lonCountry": "8.2319736",
+  "name": "Switzerland"
+},{
+  "_id": {
+    "$oid": "629a2b2167cc2e7a4589781e"
+  },
+  "alpha_2": "AT",
+  "latCountry": "47.59397",
+  "lonCountry": "14.12456",
+  "name": "Austria"
+},{
+  "_id": {
+    "$oid": "629a2b3752d12e3d3ba7c048"
+  },
+  "alpha_2": "NL",
+  "latCountry": "52.24764975",
+  "lonCountry": "5.541246849406163",
+  "name": "Netherlands"
+},{
+  "_id": {
+    "$oid": "629a2b3c67cc2e7a45897901"
+  },
+  "alpha_2": "BE",
+  "latCountry": "50.6402809",
+  "lonCountry": "4.6667145",
+  "name": "Belgium"
+},{
+  "_id": {
+    "$oid": "629a2b4352d12e3d3ba7c0b9"
+  },
+  "alpha_2": "HU",
+  "latCountry": "47.1817585",
+  "lonCountry": "19.5060937",
+  "name": "Hungary"
+},{
+  "_id": {
+    "$oid": "629a2b5567cc2e7a45897a33"
+  },
+  "alpha_2": "FI",
+  "latCountry": "63.2467777",
+  "lonCountry": "25.9209164",
+  "name": "Finland"
+},{
+  "_id": {
+    "$oid": "629a2b5a67cc2e7a45897a78"
+  },
+  "alpha_2": "IT",
+  "latCountry": "42.6384261",
+  "lonCountry": "12.674297",
+  "name": "Italy"
+},{
+  "_id": {
+    "$oid": "629a2b6152d12e3d3ba7c1a3"
+  },
+  "alpha_2": "RS",
+  "latCountry": "44.1534121",
+  "lonCountry": "20.55144",
+  "name": "Serbia"
+},{
+  "_id": {
+    "$oid": "629a2b6c52d12e3d3ba7c205"
+  },
+  "alpha_2": "CZ",
+  "latCountry": "49.8167003",
+  "lonCountry": "15.4749544",
+  "name": "Czechia"
+},{
+  "_id": {
+    "$oid": "629a2b6e67cc2e7a45897b81"
+  },
+  "alpha_2": "GB",
+  "latCountry": "54.7023545",
+  "lonCountry": "-3.2765753",
+  "name": "United Kingdom"
+},{
+  "_id": {
+    "$oid": "629a2b8067cc2e7a45897c42"
+  },
+  "alpha_2": "ES",
+  "latCountry": "39.3260685",
+  "lonCountry": "-4.8379791",
+  "name": "Spain"
+},{
+  "_id": {
+    "$oid": "629a2b9e52d12e3d3ba7c310"
+  },
+  "alpha_2": "PT",
+  "latCountry": "40.0332629",
+  "lonCountry": "-7.8896263",
+  "name": "Portugal"
+},{
+  "_id": {
+    "$oid": "629a2bce67cc2e7a45897ea4"
+  },
+  "alpha_2": "LV",
+  "latCountry": "56.8406494",
+  "lonCountry": "24.7537645",
+  "name": "Latvia"
+},{
+  "_id": {
+    "$oid": "629a2bce67cc2e7a45897ea7"
+  },
+  "alpha_2": "SE",
+  "latCountry": "59.6749712",
+  "lonCountry": "14.5208584",
+  "name": "Sweden"
+},{
+  "_id": {
+    "$oid": "629a2be267cc2e7a45897f56"
+  },
+  "alpha_2": "LU",
+  "latCountry": "49.8158683",
+  "lonCountry": "6.1296751",
+  "name": "Luxembourg"
+},{
+  "_id": {
+    "$oid": "629a2c0167cc2e7a4589805d"
+  },
+  "alpha_2": "TR",
+  "latCountry": "38.9597594",
+  "lonCountry": "34.9249653",
+  "name": "Turkey"
+},{
+  "_id": {
+    "$oid": "629a2c0552d12e3d3ba7c533"
+  },
+  "alpha_2": "SI",
+  "latCountry": "45.8133113",
+  "lonCountry": "14.4808369",
+  "name": "Slovenia"
+},{
+  "_id": {
+    "$oid": "629a2c0c67cc2e7a458980d5"
+  },
+  "alpha_2": "SK",
+  "latCountry": "48.7411522",
+  "lonCountry": "19.4528646",
+  "name": "Slovakia"
+},{
+  "_id": {
+    "$oid": "629a2c3267cc2e7a45898224"
+  },
+  "alpha_2": "RO",
+  "latCountry": "45.9852129",
+  "lonCountry": "24.6859225",
+  "name": "Romania"
+},{
+  "_id": {
+    "$oid": "629a2c3b67cc2e7a45898273"
+  },
+  "alpha_2": "MK",
+  "latCountry": "41.6171214",
+  "lonCountry": "21.7168387",
+  "name": "North Macedonia"
+},{
+  "_id": {
+    "$oid": "629a2c6e67cc2e7a4589840e"
+  },
+  "alpha_2": "AL",
+  "name": "Albania"
+},{
+  "_id": {
+    "$oid": "629a2c9167cc2e7a4589852e"
+  },
+  "alpha_2": "CY",
+  "latCountry": "34.9823018",
+  "lonCountry": "33.1451285",
+  "name": "Cyprus"
+},{
+  "_id": {
+    "$oid": "629a2ceb52d12e3d3ba7ca1a"
+  },
+  "alpha_2": "NO",
+  "latCountry": "60.5000209",
+  "lonCountry": "9.0999715",
+  "name": "Norway"
+},{
+  "_id": {
+    "$oid": "629a2d2967cc2e7a45898acd"
+  },
+  "alpha_2": "UA",
+  "latCountry": "49.4871968",
+  "lonCountry": "31.2718321",
+  "name": "Ukraine"
+},{
+  "_id": {
+    "$oid": "629a2d8067cc2e7a45898d32"
+  },
+  "alpha_2": "RU",
+  "latCountry": "54.7023545",
+  "lonCountry": "-3.2765753",
+  "name": "Russian Federation"
+},{
+  "_id": {
+    "$oid": "629a2d9d67cc2e7a45898df2"
+  },
+  "alpha_2": "GR",
+  "latCountry": "38.9953683",
+  "lonCountry": "21.9877132",
+  "name": "Greece"
+},{
+  "_id": {
+    "$oid": "629a2df367cc2e7a45899077"
+  },
+  "alpha_2": "DK",
+  "latCountry": "55.670249",
+  "lonCountry": "10.3333283",
+  "name": "Denmark"
+},{
+  "_id": {
+    "$oid": "629a2e2d67cc2e7a45899248"
+  },
+  "alpha_2": "GE",
+  "latCountry": "41.6809707",
+  "lonCountry": "44.0287382",
+  "name": "Georgia"
+},{
+  "_id": {
+    "$oid": "629a2e2f67cc2e7a45899261"
+  },
+  "alpha_2": "IE",
+  "latCountry": "52.865196",
+  "lonCountry": "-7.9794599",
+  "name": "Ireland"
+},{
+  "_id": {
+    "$oid": "629a2e5067cc2e7a458993b0"
+  },
+  "alpha_2": "BA",
+  "latCountry": "44.3053476",
+  "lonCountry": "17.5961467",
+  "name": "Bosnia and Herzegovina"
+},{
+  "_id": {
+    "$oid": "629a2fac67cc2e7a45899cc0"
+  },
+  "alpha_2": "AM",
+  "name": "Armenia"
+},{
+  "_id": {
+    "$oid": "629a2fea67cc2e7a45899ef1"
+  },
+  "alpha_2": "LT",
+  "latCountry": "55.3500003",
+  "lonCountry": "23.7499997",
+  "name": "Lithuania"
+},{
+  "_id": {
+    "$oid": "629a30d267cc2e7a4589a2f4"
+  },
+  "alpha_2": "EE",
+  "latCountry": "58.7523778",
+  "lonCountry": "25.3319078",
+  "name": "Estonia"
+},{
+  "_id": {
+    "$oid": "629a30d867cc2e7a4589a31e"
+  },
+  "alpha_2": "HR",
+  "latCountry": "45.5643442",
+  "lonCountry": "17.0118954",
+  "name": "Croatia"
+},{
+  "_id": {
+    "$oid": "629a30f567cc2e7a4589a44a"
+  },
+  "alpha_2": "MD",
+  "latCountry": "47.2879608",
+  "lonCountry": "28.5670941",
+  "name": "Moldova, Republic of"
+},{
+  "_id": {
+    "$oid": "629a316b67cc2e7a4589a80e"
+  },
+  "alpha_2": "BY",
+  "latCountry": "53.4250605",
+  "lonCountry": "27.6971358",
+  "name": "Belarus"
+},{
+  "_id": {
+    "$oid": "629a319767cc2e7a4589a9a5"
+  },
+  "alpha_2": "IS",
+  "latCountry": "64.9841821",
+  "lonCountry": "-18.1059013",
+  "name": "Iceland"
+},{
+  "_id": {
+    "$oid": "629a31a067cc2e7a4589aa14"
+  },
+  "alpha_2": "CD",
+  "name": "Congo, The Democratic Republic of the"
+},{
+  "_id": {
+    "$oid": "629a326967cc2e7a4589b017"
+  },
+  "alpha_2": "NZ",
+  "name": "New Zealand"
+},{
+  "_id": {
+    "$oid": "629a356c67cc2e7a4589c8cf"
+  },
+  "alpha_2": "AD",
+  "latCountry": "42.5407167",
+  "lonCountry": "1.5732033",
+  "name": "Andorra"
+}]
