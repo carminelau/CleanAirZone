@@ -5,12 +5,12 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Blog - FlexStart Bootstrap Template</title>
+  <title>Grafici</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/logo_CleanAirZone.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -88,7 +88,7 @@
             const ctx1 = document.getElementById('myChart1').getContext('2d');
             const ctx2 = document.getElementById('myChart2').getContext('2d');
             var readonly = document.getElementById('nazionereadonly');
-            readonly.setAttribute("value",nazione)
+            readonly.setAttribute("value", nazione)
             const myChart = new Chart(ctx, {
               type: 'line',
               data: {
@@ -239,7 +239,7 @@
             <article class="entry">
 
               <canvas id="myChart" width="400" height="250"></canvas>
-              
+
             </article><!-- End blog entry -->
 
             <article class="entry">
@@ -276,7 +276,7 @@
                       var input = document.createElement('input');
                       input.type = "radio";
                       input.className = "btn-check";
-                      input.name="btnradio"
+                      input.name = "btnradio"
                       input.id = obj.alpha_2;
                       input.autocomplete = "off";
                       input.setAttribute("onclick", "return grafico(\"" + obj.alpha_2 + "\");");
@@ -308,9 +308,36 @@
               <h3 class="sidebar-title">Download</h3>
               <div class="tags">
                 <form>
-                  <input id='nazionereadonly' class="form-control" type="text" value="" aria-label="Czechia" disabled readonly>
-                  <input type="date" id="start" name="trip-start">
-                  <input type="date" id="finish" name="trip-finish">
+                  <input id='nazionereadonly' class="form-control" type="text" value="" aria-label="Czechia" disabled
+                    readonly>
+
+                  <div id="btngroup" class="btn-group-sm" role="group" aria-label="Basic checkbox toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="radioday" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary" for="radioday">Last Day</label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="radioweek" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="radioweek">Last Week</label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="radiomonth" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="radiomonth">Last Month</label>
+
+                    <input type="radio" class="btn-check" name="btnradio" id="radiocustom"
+                      onclick="return checkCustom()" autocomplete="off">
+                    <label class="btn btn-outline-primary" for="radiocustom">Custom</label>
+                  </div>
+
+                  <script>
+                    function checkCustom() {
+                      var radio = document.getElementById("radiocustom")
+                      if (radio.checked == true) {
+                        document.getElementById("start").removeAttribute("disabled")
+                        document.getElementById("finish").removeAttribute("disabled")
+                      }
+                    }
+                  </script>
+
+                  <input type="date" id="start" name="trip-start" disabled>
+                  <input type="date" id="finish" name="trip-finish" disabled>
                   <select class="form-select" aria-label="Default select example">
                     <option selected>Seleziona il formato</option>
                     <option value="1">JSON</option>
@@ -330,7 +357,7 @@
 
 
                 </form>
-                
+
 
               </div><!-- End sidebar tags-->
 
@@ -418,7 +445,7 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-  
+
 </body>
 
 </html>
