@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Blog - FlexStart Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
+
+  <!-- =======================================================
+  * Template Name: FlexStart - v1.9.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center">
+        <img src="assets/img/logo_CleanAirZone.png" alt="">
+        <h2>CleanAirZone</h2>
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto" href="index.html">Home</a></li>
+          <li><a class="nav-link scrollto" href="map.html">Map</a></li>
+          <li><a class="nav-link scrollto active" href="diagrams.html">Diagrams</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main">
+
+    <script>
+      function grafico(nazione) {
+        fetch("http://127.0.0.1:5600/getParticulateDataDayfromCountry?country=" + nazione, {
+          "method": "GET",
+          "headers": {}
+        })
+          .then(res => res.json())
+          .then(data => {
+            var labels = []
+            var pm10 = []
+            var pm25 = []
+            for (var i = 0; i < data.length; i++) {
+
+              var obj = data[i];
+
+              labels.push(obj['timestamp'])
+              pm10.push(obj['pm10'])
+              pm25.push(obj['pm2_5'])
+
+            }
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const ctx1 = document.getElementById('myChart1').getContext('2d');
+            const ctx2 = document.getElementById('myChart2').getContext('2d');
+            var readonly = document.getElementById('nazionereadonly');
+            readonly.setAttribute("value",nazione)
+            const myChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: labels,
+                datasets: [{
+                  label: 'pm10',
+                  data: pm10,
+                  backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)'
+                  ],
+                  borderColor: [
+                    'rgba(255, 99, 132, 1)',
+
+                    'rgba(255, 206, 86, 1)'
+                  ],
+                  borderWidth: 1
+                },
+                {
+                  label: 'PM 2.5',
+                  data: pm25,
+                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                  borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                  ],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: true,
+                    text: 'Chart.js Bubble Chart'
+                  }
+                }
+              },
+
+
+
+
+            });
+
+            const myChart1 = new Chart(ctx1, {
+              type: 'line',
+              data: {
+                labels: labels,
+                datasets: [{
+                  label: 'pm10',
+                  data: pm10,
+                  backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)'
+                  ],
+                  borderColor: [
+                    'rgba(255, 99, 132, 1)',
+
+                    'rgba(255, 206, 86, 1)'
+                  ],
+                  borderWidth: 1
+                },
+                {
+                  label: 'PM 2.5',
+                  data: pm25,
+                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                  borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                  ],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: true,
+                    text: 'Chart.js Bubble Chart'
+                  }
+                }
+              },
+            });
+
+            const myChart2 = new Chart(ctx2, {
+              type: 'line',
+              data: {
+                labels: labels,
+                datasets: [{
+                  label: 'pm10',
+                  data: pm10,
+                  backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)'
+                  ],
+                  borderColor: [
+                    'rgba(255, 99, 132, 1)',
+
+                    'rgba(255, 206, 86, 1)'
+                  ],
+                  borderWidth: 1
+                },
+                {
+                  label: 'PM 2.5',
+                  data: pm25,
+                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                  borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                  ],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: {
+                    position: 'top',
+                  },
+                  title: {
+                    display: true,
+                    text: 'Chart.js Bubble Chart'
+                  }
+                }
+              },
+            });
+          }).catch(err => {
+            console.error(err);
+
+          });
+      }
+
+    </script>
+    <br><br><br>
+    <!-- ======= Blog Section ======= -->
+    <section id="blog" class="blog">
+      <div class="container" data-aos="fade-up">
+
+        <div class="row">
+
+          <div class="col-lg-8 entries">
+
+
+
+            <article class="entry">
+
+              <canvas id="myChart" width="400" height="250"></canvas>
+              
+            </article><!-- End blog entry -->
+
+            <article class="entry">
+
+              <canvas id="myChart1" width="400" height="250"></canvas>
+
+            </article><!-- End blog entry -->
+
+            <article class="entry">
+
+              <canvas id="myChart2" width="400" height="250"></canvas>
+
+            </article><!-- End blog entry -->
+
+          </div><!-- End blog entries list -->
+
+          <div class="col-lg-4">
+
+            <div class="sidebar" style="height:auto">
+
+              <button class="btn btn-outline-danger" onclick="return resetMap();">Reset Map</button>
+
+              <script>
+                fetch("http://127.0.0.1:5600/getCountry", {
+                  "method": "GET",
+                  "headers": {}
+                })
+                  .then(res => res.json())
+                  .then(data => {
+                    var btngroup = document.getElementById("btngroup");
+                    for (var i = 0; i < data.length; i++) {
+                      var obj = data[i];
+
+                      var input = document.createElement('input');
+                      input.type = "checkbox";
+                      input.className = "btn-check";
+
+                      input.id = obj.alpha_2;
+                      input.autocomplete = "off";
+                      input.setAttribute("onclick", "return grafico(\"" + obj.alpha_2 + "\");");
+                      var label = document.createElement("label");
+                      label.className = "btn btn-outline-primary";
+                      label.setAttribute("for", obj.alpha_2)
+                      label.textContent = obj.name
+                      label.style = "margin: 3px;"
+                      btngroup.appendChild(input)
+                      btngroup.appendChild(label)
+
+                    }
+
+                  }
+                  )
+                  .catch(err => {
+                    console.error(err);
+                  });
+              </script>
+
+              <h3 class="sidebar-title">Tags</h3>
+              <div class="tags">
+                <div id="btngroup" class="btn-group-sm" role="group" aria-label="Basic checkbox toggle button group">
+
+                </div>
+
+              </div><!-- End sidebar tags-->
+              <br><br>
+              <h3 class="sidebar-title">Download</h3>
+              <div class="tags">
+                <form>
+                  <input id='nazionereadonly' class="form-control" type="text" value="" aria-label="Czechia" disabled readonly>
+                  <input type="date" id="start" name="trip-start">
+                  <input type="date" id="finish" name="trip-finish">
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>Seleziona il formato</option>
+                    <option value="1">JSON</option>
+                    <option value="2">EXCEL</option>
+                    <option value="3">CSV</option>
+                  </select>
+
+                  <div class="col-auto">
+                    <button type="submit" class="btn btn-primary bi-download">Download</button>
+                  </div>
+
+
+                </form>
+                
+
+              </div><!-- End sidebar tags-->
+
+            </div><!-- End sidebar -->
+
+          </div><!-- End blog sidebar -->
+
+        </div>
+
+      </div>
+    </section><!-- End Blog Section -->
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="footer">
+
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-12 text-center">
+            <h4>Our Newsletter</h4>
+            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+          </div>
+          <div class="col-lg-6">
+            <form action="" method="post">
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-5 col-md-12 footer-info">
+            <a href="index.html" class="logo d-flex align-items-center">
+              <img src="assets/img/logo.png" alt="">
+              <span>FlexStart</span>
+            </a>
+            <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies
+              darta donna mare fermentum iaculis eu non diam phasellus.</p>
+            <div class="social-links mt-3">
+              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-6 footer-links">
+            <h4>Our Services</h4>
+            <ul>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Web Design</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Web Development</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Product Management</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Marketing</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">Graphic Design</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+            <h4>Contact Us</h4>
+            <p>
+              A108 Adam Street <br>
+              New York, NY 535022<br>
+              United States <br><br>
+              <strong>Phone:</strong> +1 5589 55488 55<br>
+              <strong>Email:</strong> info@example.com<br>
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>FlexStart</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flexstart-bootstrap-startup-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/purecounter/purecounter.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

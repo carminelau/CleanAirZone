@@ -63,7 +63,7 @@ def getDataDayfromId():
     array=[]
     stazione=stations.find_one({"ID" : id}) 
     if stazione['particulate'] == True:
-        dati=particulateData.find({'ID': id})
+        dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude']})
         for item in dati:
             del item['_id']
             data= datetime.datetime.strptime(item['timestamp'],"%Y-%m-%d %H:%M:%S")
@@ -73,7 +73,7 @@ def getDataDayfromId():
             else:
                 return jsonify({"error" : "Dati non trovati"})
     if stazione['weather'] == True:
-        dati=weatherData.find({'ID': id})
+        dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude']})
         for item in dati:
             del item['_id']
             data= datetime.datetime.strptime(item['timestamp'],"%Y-%m-%d %H:%M:%S")
@@ -124,9 +124,10 @@ def getParticulateDataDayfromCountry():
     
     array=[]
     stazioni=stations.find({"country" : country})
+    
     for stazione in stazioni:
         if stazione['particulate'] == True:
-            dati=particulateData.find({'ID': stazione['ID']})
+            dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude']})
             for item in dati:
                 del item['_id']
                 data= datetime.datetime.strptime(item['timestamp'],"%Y-%m-%d %H:%M:%S")
@@ -148,7 +149,7 @@ def getWeatherDataDayfromCountry():
     stazioni=stations.find({"country" : country})
     for stazione in stazioni:
         if stazione['weather'] == True:
-            dati=weatherData.find({'ID': stazione['ID']})
+            dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude']})
             for item in dati:
                 del item['_id']
                 data= datetime.datetime.strptime(item['timestamp'],"%Y-%m-%d %H:%M:%S")
@@ -170,7 +171,7 @@ def getWeatherDataDayfromCity():
     stazioni=stations.find({"city" : city})
     for stazione in stazioni:
         if stazione['weather'] == True:
-            dati=weatherData.find({'ID': stazione['ID']})
+            dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude']})
             for item in dati:
                 del item['_id']
                 data= datetime.datetime.strptime(item['timestamp'],"%Y-%m-%d %H:%M:%S")
@@ -192,7 +193,7 @@ def getParticulateDataDayfromCity():
     stazioni=stations.find({"city" : city})
     for stazione in stazioni:
         if stazione['weather'] == True:
-            dati=particulateData.find({'ID': stazione['ID']})
+            dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude']})
             for item in dati:
                 del item['_id']
                 data= datetime.datetime.strptime(item['timestamp'],"%Y-%m-%d %H:%M:%S")
@@ -214,7 +215,7 @@ def getWeatherDataWeekfromCity():
     stazioni=stations.find({"citta" : city})
     for stazione in stazioni:
         if stazione['weather'] == True:
-            dati=weatherData.find({'ID': stazione['ID']})
+            dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude']})
             for item in dati:
                 del item['_id']
                 data= datetime.datetime.strptime(item['timestamp'],"%Y-%m-%d %H:%M:%S")
@@ -236,7 +237,7 @@ def getParticulateDataWeekfromCity():
     stazioni=stations.find({"citta" : city})
     for stazione in stazioni:
         if stazione['particulate'] == True:
-            dati=particulateData.find({'ID': stazione['ID']})
+            dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude']})
             for item in dati:
                 del item['_id']
                 data= datetime.datetime.strptime(item['timestamp'],"%Y-%m-%d %H:%M:%S")
