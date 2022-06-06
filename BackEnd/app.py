@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request,send_file,make_response
+from flask import Flask,jsonify,request,send_file,make_response,send_from_directory
 import pandas as pd
 from databases import particulateData,stations,weatherData,country
 from tools import findCountry
@@ -71,68 +71,10 @@ def getDatafromCountry():
     array=[]
     stazioni=stations.find({"country" : country})
 
-    for stazione in stazioni:
-        if tipo == 'all':
-            if stazione['particulate'] == True:
-                if(time=="day"):
-                    now= datetime.datetime.now().date().strftime("%Y-%m-%d")    
-                    dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                    for item in dati:
-                        del item['_id']
-                        array.append(item)
-                elif(time=="week"):
-                    for i in range(7):
-                        now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
-                        dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                        countpm10=0
-                        countpm25=0
-                        for item in dati:
-                            countpm10=countpm10 + item['pm10']
-                            countpm25=countpm25 + item['pm_25']
-                        dato ={'timestamp': now, 'pm10': countpm10/len(dati), 'pm_25':countpm25/len(dati)}
-                        array.append(dato)
-                elif(time=="month"):
-                    for i in range(30):
-                        now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
-                        dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                        countpm10=0
-                        countpm25=0
-                        for item in dati:
-                            countpm10=countpm10 + item['pm10']
-                            countpm25=countpm25 + item['pm_25']
-                        dato ={'timestamp': now, 'pm10': countpm10/len(dati), 'pm_25':countpm25/len(dati)}
-                        array.append(dato)
-            if stazione['weather'] == True:
-                if(time=="day"):
-                    now= datetime.datetime.now().date().strftime("%Y-%m-%d")    
-                    dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                    for item in dati:
-                        del item['_id']
-                        array.append(item)
-                elif(time=="week"):
-                    for i in range(7):
-                        now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
-                        dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                        counttemp=0
-                        counthum=0
-                        for item in dati:
-                            counttemp=counttemp + item['pm10']
-                            counthum=counthum + item['pm_25']
-                        dato ={'timestamp': now, 'temperatura': counttemp/len(dati), 'umidita':counthum/len(dati)}
-                        array.append(dato)
-                elif(time=="month"):
-                    for i in range(30):
-                        now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
-                        dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                        counttemp=0
-                        counthum=0
-                        for item in dati:
-                            counttemp=counttemp + item['pm10']
-                            counthum=counthum + item['pm_25']
-                        dato ={'timestamp': now, 'temperatura': counttemp/len(dati), 'umidita':counthum/len(dati)}
-                        array.append(dato)
-        elif tipo == 'particulate':
+    if tipo == 'all':
+        if stazione['particulate'] == True:
             if(time=="day"):
+                for stazione in stazioni:
                     now= datetime.datetime.now().date().strftime("%Y-%m-%d")    
                     dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
                     for item in dati:
@@ -140,28 +82,41 @@ def getDatafromCountry():
                         array.append(item)
             elif(time=="week"):
                 for i in range(7):
-                    now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
-                    dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
                     countpm10=0
                     countpm25=0
-                    for item in dati:
-                        countpm10=countpm10 + item['pm10']
-                        countpm25=countpm25 + item['pm_25']
-                    dato ={'timestamp': now, 'pm10': countpm10/len(dati), 'pm_25':countpm25/len(dati)}
-                    array.append(dato)
+                    cont=0
+                    for stazione in stazioni:
+                        now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+                        dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
+                    
+                        for item in dati:
+                            countpm10=countpm10 + item['pm10']
+                            countpm25=countpm25 + item['pm2_5']
+                            cont=cont+1
+
+                    if(cont >0):
+                        dato ={'timestamp': now, 'pm10': countpm10/cont, 'pm2_5':countpm25/cont}
+                        array.append(dato)
             elif(time=="month"):
                 for i in range(30):
-                    now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
-                    dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
                     countpm10=0
                     countpm25=0
-                    for item in dati:
-                        countpm10=countpm10 + item['pm10']
-                        countpm25=countpm25 + item['pm_25']
-                    dato ={'timestamp': now, 'pm10': countpm10/len(dati), 'pm_25':countpm25/len(dati)}
-                    array.append(dato)
-        elif tipo == 'weather':
+                    cont=0
+                    for stazione in stazioni:
+                        now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+                        dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
+                    
+                        for item in dati:
+                            countpm10=countpm10 + item['pm10']
+                            countpm25=countpm25 + item['pm2_5']
+                            cont=cont+1
+
+                    if(cont >0):
+                        dato ={'timestamp': now, 'pm10': countpm10/cont, 'pm2_5':countpm25/cont}
+                        array.append(dato)
+        if stazione['weather'] == True:
             if(time=="day"):
+                for stazione in stazioni:
                     now= datetime.datetime.now().date().strftime("%Y-%m-%d")    
                     dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
                     for item in dati:
@@ -169,25 +124,121 @@ def getDatafromCountry():
                         array.append(item)
             elif(time=="week"):
                 for i in range(7):
-                    now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
-                    dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
                     counttemp=0
                     counthum=0
-                    for item in dati:
-                        counttemp=counttemp + item['pm10']
-                        counthum=counthum + item['pm_25']
-                    dato ={'timestamp': now, 'temperatura': counttemp/len(dati), 'umidita':counthum/len(dati)}
-                    array.append(dato)
+                    cont=0
+                    for stazione in stazioni:
+                        now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+                        dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
+                    
+                        for item in dati:
+                            counttemp=counttemp + item['temperatura']
+                            counthum=counthum + item['umidita']
+                            cont=cont+1
+
+                    if(cont >0):
+                        dato ={'timestamp': now, 'temperatura': counttemp/cont, 'umidita':counthum/cont}
+                        array.append(dato)
             elif(time=="month"):
                 for i in range(30):
-                    now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
-                    dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
                     counttemp=0
                     counthum=0
+                    cont=0
+                    for stazione in stazioni:
+                        now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+                        dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
+                    
+                        for item in dati:
+                            counttemp=counttemp + item['temperatura']
+                            counthum=counthum + item['umidita']
+                            cont=cont+1
+
+                    if(cont >0):
+                        dato ={'timestamp': now, 'temperatura': counttemp/cont, 'umidita':counthum/cont}
+                        array.append(dato)
+    elif tipo == 'particulate':
+        if(time=="day"):
+            for stazione in stazioni:
+                now= datetime.datetime.now().date().strftime("%Y-%m-%d")    
+                dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
+                for item in dati:
+                    del item['_id']
+                    array.append(item)
+        elif(time=="week"):
+            for i in range(7):
+                countpm10=0
+                countpm25=0
+                cont=0
+                for stazione in stazioni:
+                    now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+                    dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
+                
                     for item in dati:
-                        counttemp=counttemp + item['pm10']
-                        counthum=counthum + item['pm_25']
-                    dato ={'timestamp': now, 'temperatura': counttemp/len(dati), 'umidita':counthum/len(dati)}
+                        countpm10=countpm10 + item['pm10']
+                        countpm25=countpm25 + item['pm2_5']
+                        cont=cont+1
+
+                if(cont >0):
+                    dato ={'timestamp': now, 'pm10': countpm10/cont, 'pm2_5':countpm25/cont}
+                    array.append(dato)
+        elif(time=="month"):
+            for i in range(30):
+                countpm10=0
+                countpm25=0
+                cont=0
+                for stazione in stazioni:
+                    now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+                    dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
+                
+                    for item in dati:
+                        countpm10=countpm10 + item['pm10']
+                        countpm25=countpm25 + item['pm2_5']
+                        cont=cont+1
+
+                if(cont >0):
+                    dato ={'timestamp': now, 'pm10': countpm10/cont, 'pm2_5':countpm25/cont}
+                    array.append(dato)
+    elif tipo == 'weather':
+        if(time=="day"):
+            for stazione in stazioni:
+                now= datetime.datetime.now().date().strftime("%Y-%m-%d")    
+                dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
+                for item in dati:
+                    del item['_id']
+                    array.append(item)
+        elif(time=="week"):
+            for i in range(7):
+                counttemp=0
+                counthum=0
+                cont=0
+                for stazione in stazioni:
+                    now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+                    dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
+                
+                    for item in dati:
+                        counttemp=counttemp + item['temperatura']
+                        counthum=counthum + item['umidita']
+                        cont=cont+1
+
+                if(cont >0):
+                    dato ={'timestamp': now, 'temperatura': counttemp/cont, 'umidita':counthum/cont}
+                    array.append(dato)
+        elif(time=="month"):
+            for i in range(30):
+                counttemp=0
+                counthum=0
+                cont=0
+                for stazione in stazioni:
+                    now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+                    dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
+                
+                    for item in dati:
+                        counttemp=counttemp + item['temperatura']
+                        counthum=counthum + item['umidita']
+                        cont=cont+1
+
+                if(cont >0):
+                    dato ={'timestamp': now, 'temperatura': counttemp/cont, 'umidita':counthum/cont}
                     array.append(dato)
             
     if (len(array)>0):
@@ -321,7 +372,7 @@ def downlaod():
         return jsonify({"error" : "country non inserto"})
     time = request.args.get('time')
     if(time==""):
-        return jsonify({"error" : "time non inserto"}) #day, week, month
+        return jsonify({"error" : "time non inserto"}) #day, week, month, custom
     if(time=="custom"):    
         datainizio = request.args.get('datainizio')
         if(datainizio==""):
@@ -338,106 +389,146 @@ def downlaod():
     array=[]
     stazioni=stations.find({"country" : country})
 
-    for stazione in stazioni:
-        if tipo == 'particulate':
-            
-            if(time == "day"):
+    
+    if tipo == 'particulate':
+        
+        if(time == "day"):
+            for stazione in stazioni:
                 now= datetime.datetime.now().date().strftime("%Y-%m-%d")    
                 dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
                 for item in dati:
                     del item['_id']
                     array.append(item)
-            elif(time=="week"):
-                for i in range(7):
+        elif(time=="week"):
+            for i in range(7):
+                countpm10=0
+                countpm25=0
+                cont=0
+                for stazione in stazioni:
                     now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
                     dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                    countpm10=0
-                    countpm25=0
+                
                     for item in dati:
                         countpm10=countpm10 + item['pm10']
-                        countpm25=countpm25 + item['pm_25']
-                    dato ={'timestamp': now, 'pm10': countpm10/len(dati), 'pm_25':countpm25/len(dati)}
+                        countpm25=countpm25 + item['pm2_5']
+                        cont=cont+1
+
+                if(cont >0):
+                    dato ={'timestamp': now, 'pm10': countpm10/cont, 'pm2_5':countpm25/cont}
                     array.append(dato)
-            elif(time=="month"):
-                for i in range(30):
+        elif(time=="month"):
+            for i in range(30):
+                countpm10=0
+                countpm25=0
+                cont=0
+                for stazione in stazioni:
                     now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
                     dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                    countpm10=0
-                    countpm25=0
+                
                     for item in dati:
                         countpm10=countpm10 + item['pm10']
-                        countpm25=countpm25 + item['pm_25']
-                    dato ={'timestamp': now, 'pm10': countpm10/len(dati), 'pm_25':countpm25/len(dati)}
-                    array.append(dato)
-            elif(time=="custom"):
-                startdate=datetime.datetime.strptime(datainizio,"%Y-%m-%d")
-                finishdate = datetime.datetime.strptime(datafine,"%Y-%m-%d")
+                        countpm25=countpm25 + item['pm2_5']
+                        cont=cont+1
 
-                for i in (finishdate-startdate):
-                    now= (startdate - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+                if(cont >0):
+                    dato ={'timestamp': now, 'pm10': countpm10/cont, 'pm2_5':countpm25/cont}
+                    array.append(dato)
+        elif(time=="custom"):
+            startdate=datetime.datetime.strptime(datainizio,"%Y-%m-%d")
+            finishdate = datetime.datetime.strptime(datafine,"%Y-%m-%d")
+
+            for i in (finishdate-startdate):
+                countpm10=0
+                countpm25=0
+                cont=0
+                for stazione in stazioni:
+                    now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
                     dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                    countpm10=0
-                    countpm25=0
+                
                     for item in dati:
                         countpm10=countpm10 + item['pm10']
-                        countpm25=countpm25 + item['pm_25']
-                    dato ={'timestamp': now, 'pm10': countpm10/len(dati), 'pm_25':countpm25/len(dati)}
+                        countpm25=countpm25 + item['pm2_5']
+                        cont=cont+1
+
+                if(cont >0):
+                    dato ={'timestamp': now, 'pm10': countpm10/cont, 'pm2_5':countpm25/cont}
                     array.append(dato)
 
-        elif tipo == 'weather':
-            if(time=="day"):
-                    now= datetime.datetime.now().date().strftime("%Y-%m-%d")    
-                    dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                    for item in dati:
-                        del item['_id']
-                        array.append(item)
-            elif(time=="week"):
-                for i in range(7):
+    elif tipo == 'weather':
+        if(time=="day"):
+            for stazione in stazioni:
+                now= datetime.datetime.now().date().strftime("%Y-%m-%d")    
+                dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
+                for item in dati:
+                    del item['_id']
+                    array.append(item)
+        elif(time=="week"):
+            for i in range(7):
+                counttemp=0
+                counthum=0
+                cont=0
+                for stazione in stazioni:
                     now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
                     dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                    counttemp=0
-                    counthum=0
+                
                     for item in dati:
-                        counttemp=counttemp + item['pm10']
-                        counthum=counthum + item['pm_25']
-                    dato ={'timestamp': now, 'temperatura': counttemp/len(dati), 'umidita':counthum/len(dati)}
+                        counttemp=counttemp + item['temperatura']
+                        counthum=counthum + item['umidita']
+                        cont=cont+1
+
+                if(cont >0):
+                    dato ={'timestamp': now, 'temperatura': counttemp/cont, 'umidita':counthum/cont}
                     array.append(dato)
-            elif(time=="month"):
-                for i in range(30):
+        elif(time=="month"):
+            for i in range(30):
+                counttemp=0
+                counthum=0
+                cont=0
+                for stazione in stazioni:
                     now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
                     dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                    counttemp=0
-                    counthum=0
+                
                     for item in dati:
-                        counttemp=counttemp + item['pm10']
-                        counthum=counthum + item['pm_25']
-                    dato ={'timestamp': now, 'temperatura': counttemp/len(dati), 'umidita':counthum/len(dati)}
-                    array.append(dato)
-            elif(time=="custom"):
-                startdate=datetime.datetime.strptime(datainizio,"%Y-%m-%d")
-                finishdate = datetime.datetime.strptime(datafine,"%Y-%m-%d")
+                        counttemp=counttemp + item['temperatura']
+                        counthum=counthum + item['umidita']
+                        cont=cont+1
 
-                for i in (finishdate-startdate):
-                    now= (startdate - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+                if(cont >0):
+                    dato ={'timestamp': now, 'temperatura': counttemp/cont, 'umidita':counthum/cont}
+                    array.append(dato)
+        elif(time=="custom"):
+            startdate=datetime.datetime.strptime(datainizio,"%Y-%m-%d")
+            finishdate = datetime.datetime.strptime(datafine,"%Y-%m-%d")
+
+            for i in (finishdate-startdate):
+                counttemp=0
+                counthum=0
+                cont=0
+                for stazione in stazioni:
+                    now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
                     dati=weatherData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                    countpm10=0
-                    countpm25=0
+                
                     for item in dati:
-                        countpm10=countpm10 + item['pm10']
-                        countpm25=countpm25 + item['pm_25']
-                    dato ={'timestamp': now, 'pm10': countpm10/len(dati), 'pm_25':countpm25/len(dati)}
-                    array.append(dato)
-        pan= pd.DataFrame.from_dict(array)
+                        counttemp=counttemp + item['temperatura']
+                        counthum=counthum + item['umidita']
+                        cont=cont+1
 
-        if download == "json":
-            return pan.to_json()
-        elif download == "csv":
-            resp = make_response(pan.to_csv())
-            resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
-            resp.headers["Content-Type"] = "text/csv"
-            return resp
-        elif download == "excel":
-            return pan.to_excel()
+                if(cont >0):
+                    dato ={'timestamp': now, 'temperatura': counttemp/cont, 'umidita':counthum/cont}
+                    array.append(dato)
+
+    pan= pd.DataFrame.from_dict(array)
+
+    if download == "json":
+        return make_response(jsonify(pan.to_dict()), 200)
+    elif download == "csv":
+        resp = make_response(pan.to_csv())
+        resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
+        resp.headers["Content-Type"] = "text/csv"
+        return resp
+    elif download == "excel":
+        pan.to_excel("BackEnd/download/example.xlsx")
+        return send_from_directory(directory="download", path="example.xlsx", as_attachment=True)
 
 
 

@@ -307,21 +307,20 @@
               <br><br>
               <h3 class="sidebar-title">Download</h3>
               <div class="tags">
-                <form>
-                  <input id='nazionereadonly' class="form-control" type="text" value="" aria-label="Czechia" disabled
-                    readonly>
+                <form action="http://127.0.0.1:5600/download?" >
+                  <input id='nazionereadonly' class="form-control" type="text" value="" aria-label="Czechia" name="country" required>
 
-                  <div id="btngroup" class="btn-group-sm" role="group" aria-label="Basic checkbox toggle button group">
-                    <input type="radio" class="btn-check" name="btnradio" id="radioday" autocomplete="off" checked>
+                  <div id="btngroup" class="btn-group-sm" role="group" aria-label="Basic checkbox toggle button group" required>
+                    <input type="radio" class="btn-check" name="time" value="day" id="radioday" autocomplete="off" checked>
                     <label class="btn btn-outline-primary" for="radioday">Last Day</label>
 
-                    <input type="radio" class="btn-check" name="btnradio" id="radioweek" autocomplete="off">
+                    <input type="radio" class="btn-check" name="time" value="week" id="radioweek" autocomplete="off">
                     <label class="btn btn-outline-primary" for="radioweek">Last Week</label>
 
-                    <input type="radio" class="btn-check" name="btnradio" id="radiomonth" autocomplete="off">
+                    <input type="radio" class="btn-check" name="time" value="month" id="radiomonth" autocomplete="off">
                     <label class="btn btn-outline-primary" for="radiomonth">Last Month</label>
 
-                    <input type="radio" class="btn-check" name="btnradio" id="radiocustom"
+                    <input type="radio" class="btn-check" name="time" id="radiocustom" value="custom"
                       onclick="return checkCustom()" autocomplete="off">
                     <label class="btn btn-outline-primary" for="radiocustom">Custom</label>
                   </div>
@@ -332,28 +331,33 @@
                       if (radio.checked == true) {
                         document.getElementById("start").removeAttribute("disabled")
                         document.getElementById("finish").removeAttribute("disabled")
+                        document.getElementById("start").setAttribute("required")
+                        
+                        document.getElementById("finish").setAttribute("required")
                       }
                     }
                   </script>
 
                   <input type="date" id="start" name="trip-start" disabled>
                   <input type="date" id="finish" name="trip-finish" disabled>
-                  <select class="form-select" aria-label="Default select example">
+                  <select class="form-select" aria-label="Default select example" name="download" id="download" required>
                     <option selected>Seleziona il formato</option>
-                    <option value="1">JSON</option>
-                    <option value="2">EXCEL</option>
-                    <option value="3">CSV</option>
+                    <option value="json">JSON</option>
+                    <option value="excel">EXCEL</option>
+                    <option value="csv">CSV</option>
                   </select>
 
-                  <select class="form-select" aria-label="Default select example">
+                  <select class="form-select" aria-label="Default select example" name="tipo" id="tipo" required>
                     <option selected>Seleziona i dati da scaricare</option>
-                    <option value="1">Weather</option>
-                    <option value="2">Particulate</option>
+                    <option value="weather">Weather</option>
+                    <option value="particulate">Particulate</option>
                   </select>
 
                   <div class="col-auto">
                     <button type="submit" class="btn btn-primary bi-download">Download</button>
                   </div>
+
+                  
 
 
                 </form>

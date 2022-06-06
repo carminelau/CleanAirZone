@@ -1,3 +1,4 @@
+import datetime
 from tools import updateStationGeo, deleteAll
 import concurrent.futures
 from databases import stations,particulateData,weatherData,country
@@ -11,7 +12,8 @@ from databases import stations,particulateData,weatherData,country
 #     for future in concurrent.futures.as_completed(futures):
 #         print('Completed')
 
-deleteAll(stations)
-deleteAll(particulateData)
-deleteAll(weatherData)
-deleteAll(country)
+now= datetime.datetime.now().date().strftime("%Y-%m-%d")
+query = { "timestamp": { "$regex": '^' + now } }
+docs = particulateData.count_documents( query )
+
+print(docs)
