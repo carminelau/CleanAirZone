@@ -1,4 +1,4 @@
-from flask import Flask,jsonify,request
+from flask import Flask,jsonify,request,send_file,make_response
 import pandas as pd
 from databases import particulateData,stations,weatherData,country
 from tools import findCountry
@@ -8,7 +8,6 @@ import datetime
 from flask_cors import CORS
 import requests
 import re
-from flask import send_file
 
 
 
@@ -341,12 +340,13 @@ def downlaod():
 
     for stazione in stazioni:
         if tipo == 'particulate':
-            if(time=="day"):
-                    now= datetime.datetime.now().date().strftime("%Y-%m-%d")    
-                    dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
-                    for item in dati:
-                        del item['_id']
-                        array.append(item)
+            
+            if(time == "day"):
+                now= datetime.datetime.now().date().strftime("%Y-%m-%d")    
+                dati=particulateData.find({'latitude': stazione['latitude'], 'longitude': stazione['longitude'], 'timestamp': {'$regex': '^' + now}})
+                for item in dati:
+                    del item['_id']
+                    array.append(item)
             elif(time=="week"):
                 for i in range(7):
                     now= (datetime.datetime.now() - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
@@ -432,7 +432,10 @@ def downlaod():
         if download == "json":
             return pan.to_json()
         elif download == "csv":
-            return pan.to_csv()
+            resp = make_response(pan.to_csv())
+            resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
+            resp.headers["Content-Type"] = "text/csv"
+            return resp
         elif download == "excel":
             return pan.to_excel()
 

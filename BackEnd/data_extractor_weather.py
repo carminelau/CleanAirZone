@@ -87,11 +87,8 @@ def extract(pippo):
                 
                 try:
                     cerco = country.find_one({'alpha_2': pippo['location']['country']})
-                    print(cerco)
                     if(cerco == None):
                         country.insert_one(dictsCountry)
-                    else:
-                        print('già inserito')
                 except:
                     print("errore inserimento country")
 
