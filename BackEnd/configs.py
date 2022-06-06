@@ -2,5 +2,8 @@ from flask import Flask
 from flask_pymongo import PyMongo
 
 application = Flask( __name__)
-client = PyMongo(application, uri="mongodb://localhost:27017/CleanAirZone")
-db = client.db
+application.config["MONGO_URI"] = "mongodb+srv://root:root@cluster0.litxc.mongodb.net/test"
+
+mongo = PyMongo(application)
+
+db=mongo.db

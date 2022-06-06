@@ -4,3 +4,4 @@ flask
 pandas
 flask_pymongo
 flask_cors
+pymongo[srv]
