@@ -51,18 +51,23 @@ def extract(pippo):
                 dictsStation['longitude'] = float(pippo['location']['longitude'])
                 dictsStation['country'] = pippo['location']['country']
                 dictsCountry['alpha_2'] = pippo['location']['country']
-                req = requests.get("https://nominatim.sensesquare.eu/nominatim/search?country=" + str(pippo['location']['country']))
-                js=req.json()
-                if(len(js)>0):
-                    dictsCountry['latCountry']= js[0]['lat']
-                    dictsCountry['lonCountry']= js[0]['lon']
-                dictsCountry["name"] = pycountry.countries.get(alpha_2=pippo['location']['country']).name
+
+
+                cercoNazione = country.find_one({'alpha_2': pippo['location']['country']})
+
+                if(cercoNazione == None):
+                        
+                    req = requests.get("https://nominatim.sensesquare.eu/nominatim/search?country=" + str(pippo['location']['country']))
+                    js=req.json()
+                    if(len(js)>0):
+                        dictsCountry['latCountry']= js[0]['lat']
+                        dictsCountry['lonCountry']= js[0]['lon']
+                    dictsCountry["name"] = pycountry.countries.get(alpha_2=pippo['location']['country']).name
 
                 dictsStation['indoor'] = pippo['location']['indoor']
                 dictsStation['weather'] = True
                 dictsStation['particulate'] = False
-                dictsData['latitude'] = float(pippo['location']['latitude'])
-                dictsData['longitude'] = float(pippo['location']['longitude'])
+                dictsData['country'] = pippo['location']['country']
 
                 for item in pippo['sensordatavalues']:
                     if(item['value_type'] == 'humidity'):
@@ -86,8 +91,7 @@ def extract(pippo):
                     print("errore inserimento Station")
                 
                 try:
-                    cerco = country.find_one({'alpha_2': pippo['location']['country']})
-                    if(cerco == None):
+                    if( cercoNazione == None):
                         country.insert_one(dictsCountry)
                 except:
                     print("errore inserimento country")
