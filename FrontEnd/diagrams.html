@@ -66,6 +66,34 @@
 
     <script>
       function grafico(nazione) {
+        
+        var pippo = document.getElementById('pippo')
+
+        var article0 = document.getElementById('article0')
+        var element = document.getElementById("guida");
+        element.parentNode.removeChild(element);
+
+        var canvas0 = document.createElement('canvas')
+        canvas0.id='myChart0'
+        canvas0.width=400
+        canvas0.height=250
+
+        article0.appendChild(canvas0)
+        pippo.appendChild(article0)
+
+        for(var i=1; i<3; i++){
+          var article = document.createElement('article')
+          article.className='entry'
+
+          var canvas = document.createElement('canvas')
+          canvas.id='myChart' + String(i)
+          canvas.width=400
+          canvas.height=250
+
+          article.appendChild(canvas)
+          pippo.appendChild(article)
+        }
+
         fetch("http://127.0.0.1:5600/getParticulateDataDayfromCountry?country=" + nazione, {
           "method": "GET",
           "headers": {}
@@ -84,7 +112,7 @@
               pm25.push(obj['pm2_5'])
 
             }
-            const ctx = document.getElementById('myChart').getContext('2d');
+            const ctx = document.getElementById('myChart0').getContext('2d');
             const ctx1 = document.getElementById('myChart1').getContext('2d');
             const ctx2 = document.getElementById('myChart2').getContext('2d');
             var readonly = document.getElementById('nazionereadonly');
@@ -232,28 +260,10 @@
 
         <div class="row">
 
-          <div class="col-lg-8 entries">
-
-
-
-            <article class="entry">
-
-              <canvas id="myChart" width="400" height="250"></canvas>
-
-            </article><!-- End blog entry -->
-
-            <article class="entry">
-
-              <canvas id="myChart1" width="400" height="250"></canvas>
-
-            </article><!-- End blog entry -->
-
-            <article class="entry">
-
-              <canvas id="myChart2" width="400" height="250"></canvas>
-
-            </article><!-- End blog entry -->
-
+          <div id= "pippo" class="col-lg-8 entries">
+            <article id= "article0"class="entry">
+              <img src="assets/img/team/CL.png" class="img-fluid" alt="" id = "guida">
+            </article>
           </div><!-- End blog entries list -->
 
           <div class="col-lg-4">
