@@ -235,7 +235,6 @@ def downlaod():
     if(download==""):
         return jsonify({"error" : "download non inserto"}) #json, excel, csv
     array=[]
-    stazioni=stations.find({"country" : country})
 
     
     if tipo == 'particulate':
@@ -361,17 +360,16 @@ def downlaod():
     pan= pd.DataFrame.from_dict(array)
 
     if download == "json":
-        buffer = BytesIO()
-        pan.to_json(buffer)
-        return send_file(path_or_file=buffer,download_name=str(country) +"-" +str(time) + "-" + str(tipo) + ".json", as_attachment=True)
+        pan.to_json("BackEnd/download/example.json")
+        return send_from_directory(directory="download", path="example.json", as_attachment=True)
     elif download == "csv":
-        buffer = BytesIO()
-        pan.to_csv(buffer)
-        return send_file(path_or_file=buffer,download_name=str(country) +"-" +str(time) + "-" + str(tipo) + ".csv", as_attachment=True)
+        resp = make_response(pan.to_csv())
+        resp.headers["Content-Disposition"] = "attachment; filename=export.csv"
+        resp.headers["Content-Type"] = "text/csv"
+        return resp
     elif download == "excel":
-        buffer = BytesIO()
-        pan.to_excel(buffer)
-        return send_file(path_or_file=buffer,download_name=str(country) +"-" +str(time) + "-" + str(tipo) + ".xlsx", as_attachment=True)
+        pan.to_excel("BackEnd/download/example.xlsx")
+        return send_from_directory(directory="download", path="example.xlsx", as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug = True, port= 5600)
