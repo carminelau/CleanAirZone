@@ -24,7 +24,8 @@ def getCountry():
     array=[]
     for item in nazioni:
         del item['_id']
-        array.append(item)
+        if "latCountry" in item.keys():
+            array.append(item)
 
     return jsonify(array)
 
