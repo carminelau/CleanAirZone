@@ -333,9 +333,9 @@
           <div class="col-lg-4">
 
             <div class="sidebar" style="height:auto">
-
+            <center>
               <button class="btn btn-outline-danger" onclick="return location.reload();">Resetta Grafici</button>
-
+            </center>
               <script>
                 fetch("http://127.0.0.1:5600/getCountry", {
                   "method": "GET",
@@ -370,8 +370,10 @@
                     console.error(err);
                   });
               </script>
-
-              <h3 class="sidebar-title">Tags</h3>
+              <br>
+              <center>
+                <h4 class="sidebar-title">Seleziona la nazione che vuoi visualizzare:</h3>
+              </center>
               <div class="tags">
                 <div id="btngroup" class="btn-group-sm" role="group" aria-label="Basic checkbox toggle button group">
 
@@ -379,14 +381,14 @@
 
               </div><!-- End sidebar tags-->
               <br><br>
-              <h3 class="sidebar-title">Download</h3>
               <center>
+              <h3 class="sidebar-title">Download</h3>
               <div class="tags">
                 <form action="http://127.0.0.1:5600/download?">
                   <label for="btngroup" >Nazione: </label>
                   <input id='nazionereadonly' class="form-control" type="text" value="" aria-label="Czechia"
                     name="country" required style="align-items: center;">
-                  
+                    <br>
                     <label for="btngroup" >Seleziona la frequenza dei dati</label>
 
                   <div id="btngroup" class="btn-group-sm" role="group" aria-label="Basic checkbox toggle button group"
@@ -424,8 +426,10 @@
                   <input type="date" id="start" name="trip-start" disabled>
                   <label for="finish">Data di fine:</label>
                   <input type="date" id="finish" name="trip-finish" disabled>
+                  <br>
                   <select class="form-select" aria-label="Default select example" name="download" id="download"
                     required>
+                    <br>
                     <option selected>Seleziona il formato</option>
                     <option value="json">JSON</option>
                     <option value="excel">EXCEL</option>
