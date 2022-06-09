@@ -66,7 +66,7 @@
 
     <script>
       function grafico(nazione) {
-        
+
         var pippo = document.getElementById('pippo')
 
         var article0 = document.getElementById('article0')
@@ -74,21 +74,21 @@
         element.parentNode.removeChild(element);
 
         var canvas0 = document.createElement('canvas')
-        canvas0.id='myChart0'
-        canvas0.width=400
-        canvas0.height=250
+        canvas0.id = 'myChart0'
+        canvas0.width = 400
+        canvas0.height = 250
 
         article0.appendChild(canvas0)
         pippo.appendChild(article0)
 
-        for(var i=1; i<3; i++){
+        for (var i = 1; i < 3; i++) {
           var article = document.createElement('article')
-          article.className='entry'
+          article.className = 'entry'
 
           var canvas = document.createElement('canvas')
-          canvas.id='myChart' + String(i)
-          canvas.width=400
-          canvas.height=250
+          canvas.id = 'myChart' + String(i)
+          canvas.width = 400
+          canvas.height = 250
 
           article.appendChild(canvas)
           pippo.appendChild(article)
@@ -103,18 +103,29 @@
             var labels = []
             var pm10 = []
             var pm25 = []
-            for (var i = 0; i < data.length; i++) {
+            if (data.length < 40) {
+              for (var i = 0; i < data.length; i++) {
 
-              var obj = data[i];
+                var obj = data[i];
 
-              labels.push(obj['timestamp'])
-              pm10.push(obj['pm10'])
-              pm25.push(obj['pm2_5'])
+                labels.push(obj['timestamp'])
+                pm10.push(obj['pm10'])
+                pm25.push(obj['pm2_5'])
 
+              }
+            }
+            else {
+              for (var i = 0; i < 60; i++) {
+
+                var obj = data[i];
+
+                labels.push(obj['timestamp'].substring(12))
+                pm10.push(obj['pm10'])
+                pm25.push(obj['pm2_5'])
+
+              }
             }
             const ctx = document.getElementById('myChart0').getContext('2d');
-            const ctx1 = document.getElementById('myChart1').getContext('2d');
-            const ctx2 = document.getElementById('myChart2').getContext('2d');
             var readonly = document.getElementById('nazionereadonly');
             readonly.setAttribute("value", nazione)
             const myChart = new Chart(ctx, {
@@ -153,15 +164,40 @@
                   },
                   title: {
                     display: true,
-                    text: 'Chart.js Bubble Chart'
+                    text: 'Inquinamento giornaliero'
                   }
                 }
               },
-
-
-
-
             });
+
+
+          }).catch(err => {
+            console.error(err);
+
+          });
+
+        fetch("http://127.0.0.1:5600/getDatafromCountry?country=" + nazione + "&time=week&tipo=particulate", {
+          "method": "GET",
+          "headers": {}
+        })
+          .then(res => res.json())
+          .then(data => {
+            var labels = []
+            var pm10 = []
+            var pm25 = []
+            for (var i = 0; i < data.length; i++) {
+
+              var obj = data[i];
+
+              labels.push(obj['timestamp'])
+              pm10.push(obj['pm10'])
+              pm25.push(obj['pm2_5'])
+
+            }
+            const ctx1 = document.getElementById('myChart1').getContext('2d');
+            const ctx2 = document.getElementById('myChart2').getContext('2d');
+            var readonly = document.getElementById('nazionereadonly');
+            readonly.setAttribute("value", nazione)
 
             const myChart1 = new Chart(ctx1, {
               type: 'line',
@@ -199,19 +235,47 @@
                   },
                   title: {
                     display: true,
-                    text: 'Chart.js Bubble Chart'
+                    text: 'Inquinamento settimanale'
                   }
                 }
               },
             });
+          }).catch(err => {
+            console.error(err);
+
+          });
+
+
+        fetch("http://127.0.0.1:5600/getDatafromCountry?country=" + nazione + "&time=week&tipo=weather", {
+          "method": "GET",
+          "headers": {}
+        })
+          .then(res => res.json())
+          .then(data => {
+            var labels = []
+            var temperatura = []
+            var umidita = []
+            for (var i = 0; i < data.length; i++) {
+
+              var obj = data[i];
+
+              labels.push(obj['timestamp'])
+              temperatura.push(obj['temperatura'])
+              umidita.push(obj['umidita'])
+
+            }
+
+            const ctx2 = document.getElementById('myChart2').getContext('2d');
+            var readonly = document.getElementById('nazionereadonly');
+            readonly.setAttribute("value", nazione)
 
             const myChart2 = new Chart(ctx2, {
               type: 'line',
               data: {
                 labels: labels,
                 datasets: [{
-                  label: 'pm10',
-                  data: pm10,
+                  label: 'Temperatura',
+                  data: temperatura,
                   backgroundColor: [
                     'rgba(255, 99, 132, 0.2)'
                   ],
@@ -223,8 +287,8 @@
                   borderWidth: 1
                 },
                 {
-                  label: 'PM 2.5',
-                  data: pm25,
+                  label: 'Umidità',
+                  data: umidita,
                   backgroundColor: 'rgba(54, 162, 235, 0.2)',
                   borderColor: [
                     'rgba(75, 192, 192, 1)',
@@ -241,7 +305,7 @@
                   },
                   title: {
                     display: true,
-                    text: 'Chart.js Bubble Chart'
+                    text: 'Temperatura e Umidità Settimanale'
                   }
                 }
               },
@@ -260,9 +324,9 @@
 
         <div class="row">
 
-          <div id= "pippo" class="col-lg-8 entries">
-            <article id= "article0"class="entry">
-              <img src="assets/img/team/CL.png" class="img-fluid" alt="" id = "guida">
+          <div id="pippo" class="col-lg-8 entries">
+            <article id="article0" class="entry">
+              <img src="assets/img/team/CL.png" class="img-fluid" alt="" id="guida">
             </article>
           </div><!-- End blog entries list -->
 
@@ -280,7 +344,7 @@
                   .then(res => res.json())
                   .then(data => {
                     var btngroup = document.getElementById("btngroup");
-                    for (var i = 1; i < data.length; i++) {
+                    for (var i = 0; i < data.length; i++) {
                       var obj = data[i];
 
                       var input = document.createElement('input');
@@ -316,12 +380,19 @@
               </div><!-- End sidebar tags-->
               <br><br>
               <h3 class="sidebar-title">Download</h3>
+              <center>
               <div class="tags">
-                <form action="http://127.0.0.1:5600/download?" >
-                  <input id='nazionereadonly' class="form-control" type="text" value="" aria-label="Czechia" name="country" required>
+                <form action="http://127.0.0.1:5600/download?">
+                  <label for="btngroup" >Nazione: </label>
+                  <input id='nazionereadonly' class="form-control" type="text" value="" aria-label="Czechia"
+                    name="country" required style="align-items: center;">
+                  
+                    <label for="btngroup" >Seleziona la frequenza dei dati</label>
 
-                  <div id="btngroup" class="btn-group-sm" role="group" aria-label="Basic checkbox toggle button group" required>
-                    <input type="radio" class="btn-check" name="time" value="day" id="radioday" autocomplete="off" checked>
+                  <div id="btngroup" class="btn-group-sm" role="group" aria-label="Basic checkbox toggle button group"
+                    required>
+                    <input type="radio" class="btn-check" name="time" value="day" id="radioday" autocomplete="off"
+                      checked>
                     <label class="btn btn-outline-primary" for="radioday">Last Day</label>
 
                     <input type="radio" class="btn-check" name="time" value="week" id="radioweek" autocomplete="off">
@@ -332,6 +403,7 @@
 
                     <input type="radio" class="btn-check" name="time" id="radiocustom" value="custom"
                       onclick="return checkCustom()" autocomplete="off">
+                    
                     <label class="btn btn-outline-primary" for="radiocustom">Custom</label>
                   </div>
 
@@ -342,38 +414,44 @@
                         document.getElementById("start").removeAttribute("disabled")
                         document.getElementById("finish").removeAttribute("disabled")
                         document.getElementById("start").setAttribute("required")
-                        
+
                         document.getElementById("finish").setAttribute("required")
                       }
                     }
                   </script>
-
+                  <br>
+                  <label for="start" >Data di inizio:</label>
                   <input type="date" id="start" name="trip-start" disabled>
+                  <label for="finish">Data di fine:</label>
                   <input type="date" id="finish" name="trip-finish" disabled>
-                  <select class="form-select" aria-label="Default select example" name="download" id="download" required>
+                  <select class="form-select" aria-label="Default select example" name="download" id="download"
+                    required>
                     <option selected>Seleziona il formato</option>
                     <option value="json">JSON</option>
                     <option value="excel">EXCEL</option>
                     <option value="csv">CSV</option>
                   </select>
+                  <br>
 
                   <select class="form-select" aria-label="Default select example" name="tipo" id="tipo" required>
                     <option selected>Seleziona i dati da scaricare</option>
                     <option value="weather">Weather</option>
                     <option value="particulate">Particulate</option>
                   </select>
+                  <br>
 
                   <div class="col-auto">
                     <button type="submit" class="btn btn-primary bi-download">Download</button>
                   </div>
 
-                  
+
 
 
                 </form>
 
 
               </div><!-- End sidebar tags-->
+            </center>
 
             </div><!-- End sidebar -->
 
