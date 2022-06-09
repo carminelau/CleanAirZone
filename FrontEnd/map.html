@@ -139,8 +139,10 @@
           <div class="col-lg-4">
 
             <div class="sidebar">
-
+              
+            <center>
               <button class="btn btn-outline-danger" onclick="return resetMap();">Reset Map</button>
+            </center>
 
               <script>
                 fetch("http://127.0.0.1:5600/getCountry", {
@@ -176,8 +178,10 @@
                     console.error(err);
                   });
               </script>
-
-              <h3 class="sidebar-title">Tags</h3>
+              <br>
+              <center>
+              <h4 class="sidebar-title">Seleziona la nazione che vuoi visualizzare:</h3>
+              </center>
               <div class="tags">
                   <div id="btngroup" class="btn-group-sm" role="group" aria-label="Basic checkbox toggle button group">
                     
