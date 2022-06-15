@@ -9,17 +9,22 @@ import datetime
 from flask_cors import CORS
 import requests
 import re
+from flask_compress import Compress
 
 
 
 app = Flask(__name__)
 CORS(app)
+compress=Compress()
+compress.init_app(app)
 
 @app.route('/')
+@compress.compressed()
 def home():
     return "home"
 
 @app.route("/getCountry")
+@compress.compressed()
 def getCountry():
     nazioni=country.find()
     array=[]
@@ -31,6 +36,7 @@ def getCountry():
     return jsonify(array)
 
 @app.route("/getStationsByCountry")
+@compress.compressed()
 def getStationByCountry():
     count = request.args.get('country')
     if(count==""):
@@ -49,6 +55,7 @@ def getStationByCountry():
     return jsonify(diz)
 
 @app.route("/getAllStations")
+@compress.compressed()
 def getAllStations():
     
     dati=stations.find() 
@@ -59,6 +66,7 @@ def getAllStations():
     return jsonify(array)
 
 @app.route("/getDatafromCountry")
+@compress.compressed()
 def getDatafromCountry():
     country = request.args.get('country')
     if(country==""):
@@ -158,6 +166,7 @@ def getDatafromCountry():
         return jsonify({"error" : "Dati non trovati"})
 
 @app.route("/getParticulateDataDayfromCountry")
+@compress.compressed()
 def getParticulateDataDayfromCountry():
     country = request.args.get('country')
     if(country==""):
@@ -178,6 +187,7 @@ def getParticulateDataDayfromCountry():
         return jsonify({"error" : "Dati non trovati"})
 
 @app.route("/getWeatherDataDayfromCountry")
+@compress.compressed()
 def getWeatherDataDayfromCountry():
     country = request.args.get('country')
     if(country==""):
@@ -198,22 +208,26 @@ def getWeatherDataDayfromCountry():
         return jsonify({"error" : "Dati non trovati"})
 
 @app.route("/CountSensorItaly")
+@compress.compressed()
 def CountSensorItaly():    
     dati=stations.count_documents({"country" : 'IT'}) 
     return jsonify({"dati":dati})
 
 @app.route("/CountSensor")
+@compress.compressed()
 def CountSensor():    
     dati=stations.count_documents({}) 
     return jsonify({"dati":dati})
 
 @app.route("/CountDataWorld")
+@compress.compressed()
 def CountDataWorld():    
     datipartculate=particulateData.count_documents({})
     datiweather=weatherData.count_documents({}) 
     return jsonify({"dati":datipartculate+datiweather})
 
 @app.route("/download")
+@compress.compressed()
 def downlaod():
     country = request.args.get('country')
     if(country==""):
