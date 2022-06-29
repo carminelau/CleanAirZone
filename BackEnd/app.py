@@ -374,7 +374,7 @@ def downlaod():
     pan= pd.DataFrame.from_dict(array)
 
     if download == "json":
-        pan.to_json("BackEnd/download/example.json")
+        pan.to_json("download\example.json")
         return send_from_directory(directory="download", path="example.json", as_attachment=True)
     elif download == "csv":
         resp = make_response(pan.to_csv())
@@ -382,7 +382,7 @@ def downlaod():
         resp.headers["Content-Type"] = "text/csv"
         return resp
     elif download == "excel":
-        pan.to_excel("BackEnd/download/example.xlsx")
+        pan.to_excel("download\example.xlsx")
         return send_from_directory(directory="download", path="example.xlsx", as_attachment=True)
 
 if __name__ == '__main__':
